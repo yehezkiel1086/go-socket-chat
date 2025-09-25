@@ -1,6 +1,9 @@
 package postgres
 
 import (
+	"fmt"
+	"go-socket/internal/adapter/config"
+
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
@@ -9,8 +12,8 @@ type DB struct {
 	db *gorm.DB
 }
 
-func InitDB() (*DB, error) {
-	dsn := "host=localhost user=gorm password=gorm dbname=gorm port=9920 sslmode=disable TimeZone=Asia/Jakarta"
+func InitDB(conf *config.DB) (*DB, error) {
+	dsn := fmt.Sprintf("host=%v user=%v password=%v dbname=%v port=%v sslmode=disable TimeZone=Asia/Jakarta", conf.Host, conf.User, conf.Password, conf.Name, conf.Port)
 	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	if err != nil {
 		return &DB{}, err
