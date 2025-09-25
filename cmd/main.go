@@ -1,9 +1,14 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"go-socket/internal/adapter/config"
+	"go-socket/internal/adapter/handler"
 	"go-socket/internal/adapter/storage/postgres"
+	"go-socket/internal/adapter/storage/postgres/repository"
+	"go-socket/internal/core/domain"
+	"go-socket/internal/core/service"
 )
 
 func main() {
@@ -15,9 +20,34 @@ func main() {
 	fmt.Println("Config imported successfully ✅")
 
 	// init db
-	_, err = postgres.InitDB(conf.DB)
+	ctx := context.Background()
+	db, err := postgres.InitDB(ctx, conf.DB)
 	if err != nil {
 		panic(err)
 	}
 	fmt.Println("DB connected successfully ✅")	
+
+	// migrate database
+	if err := db.MigrateDB(&domain.User{}); err != nil {
+		panic(err)
+	}
+	fmt.Println("DBs migrated successfully ✅")
+
+	// dependency injection
+	userRepo := repository.InitUserRepository(db)
+	userSvc := service.InitUserService(userRepo)
+	userHandler := handler.InitUserHandler(userSvc)
+
+	// routing
+	r, err := handler.InitRouter(
+		conf.HTTP,
+		*userHandler,
+	)
+	if err != nil {
+		panic(err)
+	}
+
+	// start server
+	uri := fmt.Sprintf("%v:%v", conf.HTTP.Host, conf.HTTP.Port)
+	r.Serve(uri)
 }
