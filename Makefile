@@ -7,4 +7,7 @@ composedown:
 postgres:
 	docker exec -it postgres psql -U postgres -b socket_chat
 
-.PHONY: composeup composedown postgres
+run:
+	go run cmd/main.go
+
+.PHONY: composeup composedown postgres run
