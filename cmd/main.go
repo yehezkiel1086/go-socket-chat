@@ -38,10 +38,14 @@ func main() {
 	userSvc := service.InitUserService(userRepo)
 	userHandler := handler.InitUserHandler(userSvc)
 
+	authSvc := service.InitAuthService(userRepo)
+	authHandler := handler.InitAuthHandler(authSvc)
+
 	// routing
 	r, err := handler.InitRouter(
 		conf.HTTP,
 		*userHandler,
+		*authHandler,
 	)
 	if err != nil {
 		panic(err)
