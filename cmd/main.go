@@ -41,11 +41,16 @@ func main() {
 	authSvc := service.InitAuthService(userRepo)
 	authHandler := handler.InitAuthHandler(authSvc)
 
+	hubRepo := repository.InitHubRepository()
+	hubSvc := service.InitHubService(hubRepo)
+	hubHandler := handler.InitHubHandler(hubSvc)
+
 	// routing
 	r, err := handler.InitRouter(
 		conf.HTTP,
 		*userHandler,
 		*authHandler,
+		*hubHandler,
 	)
 	if err != nil {
 		panic(err)
