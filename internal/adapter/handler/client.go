@@ -51,6 +51,6 @@ func (ch *ClientHandler) JoinRoom(c *gin.Context) {
 		RoomID: roomId,
 		Username: username,
 		ID: clientId,
-		Message: make(chan *domain.Message),
+		Message: make(chan *domain.Message, 10),
 	})
 }

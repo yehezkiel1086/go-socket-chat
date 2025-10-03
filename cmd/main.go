@@ -48,6 +48,10 @@ func main() {
 	clientSvc := service.InitClientService(hubRepo)
 	clientHandler := handler.InitClientHandler(clientSvc)
 
+	// run the websocket
+	hub := hubRepo.GetHub(ctx)
+	go hub.Run()
+
 	// routing
 	r, err := handler.InitRouter(
 		conf.HTTP,
