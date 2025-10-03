@@ -45,12 +45,16 @@ func main() {
 	hubSvc := service.InitHubService(hubRepo)
 	hubHandler := handler.InitHubHandler(hubSvc)
 
+	clientSvc := service.InitClientService(hubRepo)
+	clientHandler := handler.InitClientHandler(clientSvc)
+
 	// routing
 	r, err := handler.InitRouter(
 		conf.HTTP,
 		*userHandler,
 		*authHandler,
 		*hubHandler,
+		*clientHandler,
 	)
 	if err != nil {
 		panic(err)

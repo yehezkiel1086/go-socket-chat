@@ -43,3 +43,7 @@ func (hr *HubRepository) GetRooms(ctx context.Context) ([]*domain.Room, error) {
 
 	return rooms, nil
 }
+
+func (hr *HubRepository) GetHub(ctx context.Context) *domain.Hub {
+	return hr.hub
+}

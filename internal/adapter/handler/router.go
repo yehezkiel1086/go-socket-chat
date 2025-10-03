@@ -15,6 +15,7 @@ func InitRouter(
 	userHandler UserHandler,
 	authHandler AuthHandler,
 	hubHandler HubHandler,
+	clientHandler ClientHandler,
 ) (*Router, error) {
 	r := gin.New()
 
@@ -26,6 +27,7 @@ func InitRouter(
 	ws := v1.Group("/ws")
 	ws.POST("/rooms", hubHandler.CreateRoom)
 	ws.GET("/rooms", hubHandler.GetRooms)
+	ws.GET("/rooms/join/:room_id", clientHandler.JoinRoom)
 
 	return &Router{r}, nil
 }
