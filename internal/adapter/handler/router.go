@@ -25,6 +25,7 @@ func InitRouter(
 	// web socket routes
 	ws := v1.Group("/ws")
 	ws.POST("/rooms", hubHandler.CreateRoom)
+	ws.GET("/rooms", hubHandler.GetRooms)
 
 	return &Router{r}, nil
 }

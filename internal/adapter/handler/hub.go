@@ -49,3 +49,15 @@ func (hh *HubHandler) CreateRoom(c *gin.Context) {
 	// return response
 	c.JSON(http.StatusCreated, input)
 }
+
+func (hh *HubHandler) GetRooms(c *gin.Context) {
+	rooms, err := hh.svc.GetRooms(c)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, rooms)
+}

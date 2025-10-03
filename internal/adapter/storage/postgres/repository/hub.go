@@ -30,3 +30,16 @@ func (hr *HubRepository) CreateRoom(ctx context.Context, room *domain.Room) (*do
 
 	return room, nil
 }
+
+func (hr *HubRepository) GetRooms(ctx context.Context) ([]*domain.Room, error) {
+	if len(hr.hub.Rooms) == 0 {
+		return []*domain.Room{}, errors.New("no rooms found")
+	}
+
+	rooms := []*domain.Room{}
+	for _, r := range hr.hub.Rooms {
+		rooms = append(rooms, r)
+	}
+
+	return rooms, nil
+}

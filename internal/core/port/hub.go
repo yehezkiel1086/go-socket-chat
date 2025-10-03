@@ -7,8 +7,10 @@ import (
 
 type HubRepository interface {
 	CreateRoom(ctx context.Context, room *domain.Room) (*domain.Room, error)
+	GetRooms(ctx context.Context) ([]*domain.Room, error)
 }
 
 type HubService interface {
 	CreateRoom(ctx context.Context, room *domain.Room) (*domain.Room, error)
+	GetRooms(ctx context.Context) ([]*domain.Room, error)
 }

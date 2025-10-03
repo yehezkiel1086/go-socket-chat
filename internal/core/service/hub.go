@@ -24,3 +24,12 @@ func (hs *HubService) CreateRoom(ctx context.Context, room *domain.Room) (*domai
 
 	return res, nil
 }
+
+func (hs *HubService) GetRooms(ctx context.Context) ([]*domain.Room, error) {
+	res, err := hs.repo.GetRooms(ctx)
+	if err != nil {
+		return []*domain.Room{}, err
+	}
+
+	return res, nil
+}
